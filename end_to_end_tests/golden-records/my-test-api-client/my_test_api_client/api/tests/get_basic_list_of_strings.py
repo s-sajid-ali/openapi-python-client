@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from typing import Any, cast
 
-import httpx
+import httpx2
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
@@ -18,7 +18,7 @@ def _get_kwargs() -> dict[str, Any]:
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> list[str] | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx2.Response) -> list[str] | None:
     if response.status_code == 200:
         response_200 = cast(list[str], response.json())
 
@@ -30,7 +30,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[list[str]]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx2.Response) -> Response[list[str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -49,7 +49,7 @@ def sync_detailed(
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
-        httpx.TimeoutException: If the request takes longer than Client.timeout.
+        httpx2.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
         Response[list[str]]
@@ -57,7 +57,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs()
 
-    response = client.get_httpx_client().request(
+    response = client.get_httpx2_client().request(
         **kwargs,
     )
 
@@ -74,7 +74,7 @@ def sync(
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
-        httpx.TimeoutException: If the request takes longer than Client.timeout.
+        httpx2.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
         list[str]
@@ -95,7 +95,7 @@ async def asyncio_detailed(
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
-        httpx.TimeoutException: If the request takes longer than Client.timeout.
+        httpx2.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
         Response[list[str]]
@@ -103,7 +103,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs()
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx2_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
@@ -118,7 +118,7 @@ async def asyncio(
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
-        httpx.TimeoutException: If the request takes longer than Client.timeout.
+        httpx2.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
         list[str]
