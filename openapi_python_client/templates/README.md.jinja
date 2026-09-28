@@ -93,7 +93,7 @@ client = Client(
     httpx2_args={"event_hooks": {"request": [log_request], "response": [log_response]}},
 )
 
-# Or get the underlying httpx2 client to modify directly with client.get_httpx2_client() or client.get_async_httpx2_client()
+# Or get the underlying httpx2 client to modify directly with client.get_httpx_client() or client.get_async_httpx_client()
 ```
 
 You can even set the httpx2 client directly, but beware that this will override any existing settings (e.g., base_url):
@@ -106,7 +106,7 @@ client = Client(
     base_url="https://api.example.com",
 )
 # Note that base_url needs to be re-set, as would any shared cookies, headers, etc.
-client.set_httpx2_client(httpx2.Client(base_url="https://api.example.com", proxy="http://localhost:8030"))
+client.set_httpx_client(httpx2.Client(base_url="https://api.example.com", proxy="http://localhost:8030"))
 ```
 
 {% if meta == "poetry" %}

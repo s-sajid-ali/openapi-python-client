@@ -173,7 +173,7 @@ def sync_detailed(
         required_model_prop=required_model_prop,
     )
 
-    response = client.get_httpx2_client().request(
+    response = client.get_httpx_client().request(
         **kwargs,
     )
 
@@ -298,7 +298,7 @@ async def asyncio_detailed(
         required_model_prop=required_model_prop,
     )
 
-    response = await client.get_async_httpx2_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
